@@ -1,0 +1,22 @@
+name: PaisBot_Automation
+on:
+  schedule:
+    - cron: '0 12 * * 4' # כל יום חמישי ב-14:00 שעון ישראל
+  workflow_dispatch: # מאפשר הרצה ידנית בלחיצת כפתור
+
+jobs:
+  run_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Run Script
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+        run: |
+          pip install requests
+          python check_pais.py
